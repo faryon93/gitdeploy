@@ -115,7 +115,7 @@ func process(config config.Config) {
 
 		// check if incoming changes were pulled
 		if !strings.Contains(out, git.UP_TO_DATE) {
-			log.Printf("pulled incoming changes: %s\n%s", err.Error(), out)
+			log.Printf("pulled incoming changes: %s", out)
 		}
 	
 	// clone the repo, because its not yet cloned
