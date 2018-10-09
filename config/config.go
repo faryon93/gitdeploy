@@ -43,6 +43,8 @@ type Config struct {
 	Url          string `toml:"url"`
 	IdentityFile string `toml:"identity_file"`
 	Branch       string `toml:"branch"`
+
+	Command string `toml:"command"`
 }
 
 // ----------------------------------------------------------------------------------

@@ -23,8 +23,10 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/kballard/go-shellquote"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"sync"
@@ -133,7 +135,24 @@ func process(config config.Config) {
 
 		// check if incoming changes were pulled
 		if !strings.Contains(out, git.StdOutUpToDate) {
-			log.Printf("pulled incoming changes: %s", out)
+			log.Printf("deployed new HEAD in \"%s\"\n%s", dir, out)
+
+			// a reload command is specified
+			if config.Command != "" {
+				cmd, err := shellquote.Split(config.Command)
+				if err != nil {
+					log.Println("failed to prepare command:", err.Error())
+					return
+				}
+
+				stdout, err := exec.Command(cmd[0], cmd[1:]...).CombinedOutput()
+				if err == nil {
+					log.Printf("executed command \"%s\"\n%s",
+						config.Command, stdout)
+				} else {
+					log.Println("failed to execute command:", err.Error())
+				}
+			}
 		}
 
 		// clone the repo, because its not yet cloned

@@ -58,12 +58,12 @@ func IsInstalled() bool {
 		return false
 	}
 
-	ssh, err := exec.LookPath(SshBinary)
-	if err != nil {
-		return false
-	}
+	//ssh, err := exec.LookPath(SshBinary)
+	//if err != nil {
+	//return false
+	//}
 
-	return len(git) > 0 && len(ssh) > 0
+	return len(git) > 0 // && len(ssh) > 0
 }
 
 // Clone clones the given repostiory to the filesystem.
