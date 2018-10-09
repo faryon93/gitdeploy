@@ -44,6 +44,7 @@ const (
 //  public functions
 // ----------------------------------------------------------------------------------
 
+// IsRepository returns true if the given directory is a git repository.
 func IsRepository(dir string) bool {
 	path := filepath.Join(dir, GitDirectory)
 	_, err := os.Stat(path)
@@ -65,6 +66,7 @@ func IsInstalled() bool {
 	return len(git) > 0 && len(ssh) > 0
 }
 
+// Clone clones the given repostiory to the filesystem.
 func Clone(path string, url string, identity string, branch string) (string, error) {
 	// initialize the repository
 	out, err := execGit(path, identity, "init")
@@ -88,6 +90,7 @@ func Clone(path string, url string, identity string, branch string) (string, err
 	return execGit(path, identity, "checkout", "-t", GitRemote+"/"+branch)
 }
 
+// Pull pulls new changes from a remote repository.
 func Pull(path string, identity string) (string, error) {
 	return execGit(path, identity, "pull")
 }

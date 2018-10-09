@@ -46,12 +46,14 @@ const (
 //  global variables
 // ----------------------------------------------------------------------------------
 
-// command line arguments
-var oneshot bool
-var cycleTime int
+var (
+	// command line arguments
+	oneshot   bool
+	cycleTime int
 
-// globale states
-var processors sync.WaitGroup = sync.WaitGroup{}
+	// globale states
+	processors = sync.WaitGroup{}
+)
 
 // ----------------------------------------------------------------------------------
 //  application entry
