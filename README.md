@@ -1,6 +1,6 @@
 # gitdeploy
 
-Cyclically pulls changes from a remote git repostitory. The cycle time can be configured with in seconds the `--cycle-time` option.
+Cyclically pulls changes from a remote git repostitory. The cycle time can be configured in seconds with the `--cycle-time` commandline option.
 
 ## Example Deployfile
 
