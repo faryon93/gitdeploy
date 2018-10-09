@@ -23,7 +23,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/kballard/go-shellquote"
 	"log"
 	"os"
 	"os/exec"
@@ -31,6 +30,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/kballard/go-shellquote"
 
 	"github.com/faryon93/gitdeploy/config"
 	"github.com/faryon93/gitdeploy/git"
@@ -106,11 +107,9 @@ func main() {
 		// we are finished -> exit the application
 		if oneshot {
 			return
-
-			// sleep until the next cycle
-		} else {
-			time.Sleep(time.Duration(cycleTime) * time.Second)
 		}
+
+		time.Sleep(time.Duration(cycleTime) * time.Second)
 	}
 }
 
