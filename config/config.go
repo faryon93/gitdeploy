@@ -16,6 +16,10 @@ package config
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+// ---------------------------------------------------------------------------------------
+//  imports
+// ---------------------------------------------------------------------------------------
+
 import (
 	"github.com/BurntSushi/toml"
 )
@@ -25,7 +29,7 @@ import (
 // ----------------------------------------------------------------------------------
 
 const (
-	PROVIDER_GIT = "git"
+	ProviderGit = "git"
 )
 
 // ----------------------------------------------------------------------------------

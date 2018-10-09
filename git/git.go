@@ -16,6 +16,10 @@ package git
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+// ---------------------------------------------------------------------------------------
+//  imports
+// ---------------------------------------------------------------------------------------
+
 import (
 	"os"
 	"os/exec"
@@ -27,13 +31,13 @@ import (
 // ----------------------------------------------------------------------------------
 
 const (
-	GIT_DIRECTORY = ".git"
-	GIT_BINARY    = "git"
-	GIT_REMOTE    = "origin"
+	GitDirectory = ".git"
+	GitBinary    = "git"
+	GitRemote    = "origin"
 
-	SSH_BINARY = "ssh"
+	SshBinary = "ssh"
 
-	UP_TO_DATE = "Already up-to-date."
+	StdOutUpToDate = "Already up-to-date."
 )
 
 // ----------------------------------------------------------------------------------
@@ -41,19 +45,19 @@ const (
 // ----------------------------------------------------------------------------------
 
 func IsRepository(dir string) bool {
-	path := filepath.Join(dir, GIT_DIRECTORY)
+	path := filepath.Join(dir, GitDirectory)
 	_, err := os.Stat(path)
 
 	return !os.IsNotExist(err)
 }
 
 func IsInstalled() bool {
-	git, err := exec.LookPath(GIT_BINARY)
+	git, err := exec.LookPath(GitBinary)
 	if err != nil {
 		return false
 	}
 
-	ssh, err := exec.LookPath(SSH_BINARY)
+	ssh, err := exec.LookPath(SshBinary)
 	if err != nil {
 		return false
 	}
@@ -69,7 +73,7 @@ func Clone(path string, url string, identity string, branch string) (string, err
 	}
 
 	// add the url as a new remote
-	out, err = execGit(path, identity, "remote", "add", GIT_REMOTE, url)
+	out, err = execGit(path, identity, "remote", "add", GitRemote, url)
 	if err != nil {
 		return out, err
 	}
@@ -81,7 +85,7 @@ func Clone(path string, url string, identity string, branch string) (string, err
 	}
 
 	// setup upstream brunch
-	return execGit(path, identity, "checkout", "-t", GIT_REMOTE+"/"+branch)
+	return execGit(path, identity, "checkout", "-t", GitRemote+"/"+branch)
 }
 
 func Pull(path string, identity string) (string, error) {
@@ -95,7 +99,7 @@ func Pull(path string, identity string) (string, error) {
 func execGit(path string, identity string, args ...string) (string, error) {
 	// find the absolute path to the
 	// git cli bianry
-	binary, err := exec.LookPath(GIT_BINARY)
+	binary, err := exec.LookPath(GitBinary)
 	if err != nil {
 		return "", err
 	}
@@ -103,7 +107,7 @@ func execGit(path string, identity string, args ...string) (string, error) {
 	// build the git command
 	cmd := exec.Command(binary, args...)
 	cmd.Dir = path
-	cmd.Env = []string{"GIT_SSH_COMMAND=" + SSH_BINARY + " " +
+	cmd.Env = []string{"GIT_SSH_COMMAND=" + SshBinary + " " +
 		"-F /dev/null " +
 		"-o UserKnownHostsFile=/dev/null " +
 		"-o StrictHostKeyChecking=no " +

@@ -16,6 +16,10 @@ package main
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+// ---------------------------------------------------------------------------------------
+//  imports
+// ---------------------------------------------------------------------------------------
+
 import (
 	"flag"
 	"fmt"
@@ -35,7 +39,7 @@ import (
 // ----------------------------------------------------------------------------------
 
 const (
-	CONFIG_FILE_NAME = "Deployfile"
+	ConfigFileName = "Deployfile"
 )
 
 // ----------------------------------------------------------------------------------
@@ -75,7 +79,7 @@ func main() {
 		// recursively check the watch directory
 		// if any Deployfiles exit
 		filepath.Walk(flag.Args()[0], func(path string, f os.FileInfo, err error) error {
-			if f != nil && !f.IsDir() && strings.HasSuffix(f.Name(), CONFIG_FILE_NAME) {
+			if f != nil && !f.IsDir() && strings.HasSuffix(f.Name(), ConfigFileName) {
 				// load the Deployfile
 				conf, err := config.Load(path)
 				if err != nil {
@@ -84,7 +88,7 @@ func main() {
 				}
 
 				// process the Deployfiles in paralell
-				if conf.Provider == config.PROVIDER_GIT {
+				if conf.Provider == config.ProviderGit {
 					processors.Add(1)
 					go process(*conf)
 				}
@@ -126,7 +130,7 @@ func process(config config.Config) {
 		}
 
 		// check if incoming changes were pulled
-		if !strings.Contains(out, git.UP_TO_DATE) {
+		if !strings.Contains(out, git.StdOutUpToDate) {
 			log.Printf("pulled incoming changes: %s", out)
 		}
 
