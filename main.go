@@ -129,6 +129,7 @@ func process(config config.Config) {
 		out, err := git.Pull(dir, config.IdentityFile)
 		if err != nil {
 			log.Printf("failed to pull incoming changes: %s\n%s", err.Error(), out)
+			log.Printf("unable to process deploment \"%s\"", dir)
 			return
 		}
 
